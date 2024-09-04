@@ -437,6 +437,10 @@ func buildTasks(chrome *Chrome, url *url.URL, doNavigate bool, buf *[]byte, dom 
 		actions = append(actions, network.Enable(), network.SetExtraHTTPHeaders(network.Headers(chrome.HeadersMap)))
 	}
 
+	if chrome.ResolutionX > 0 && chrome.ResolutionY > 0 {
+		actions = append(actions, chromedp.EmulateViewport(int64(chrome.ResolutionX), int64(chrome.ResolutionY)))
+	}
+
 	if doNavigate {
 		actions = append(actions, chromedp.Navigate(url.String()))
 		if len(chrome.JsCode) > 0 {
